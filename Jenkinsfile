@@ -6,7 +6,7 @@ node {
       }     
       stage('Build image') {         
        
-            app = docker.build("kajwani/test")    
+            app = docker.build("kajwani/Aug13_test")    
        }     
       stage('Test image') {           
             app.inside {            
