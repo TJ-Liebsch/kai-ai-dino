@@ -3,10 +3,17 @@ node {
       stage('Clone repository') {               
              
             checkout scm    
-      }     
+      }  
+      stage('Fetch Commits') {
+        // Fetch commits from the repo
+        sh '''
+        git fetch
+        git log --oneline -n 5
+        '''
+    }
       stage('Build image') {         
        
-            app = docker.build("kajwani/test")    
+            app = docker.build("kajwani/Aug13_test")    
        }     
       stage('Test image') {           
             app.inside {            
