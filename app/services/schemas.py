@@ -54,3 +54,10 @@ class ChatMessage(BaseModel):
     type: str
     text: str
 
+class SyllabusResponse(BaseModel):
+    data: Any
+
+class SyllabusRequest(BaseModel):
+    grade_level: str
+    subject: str
+    additional_params: str

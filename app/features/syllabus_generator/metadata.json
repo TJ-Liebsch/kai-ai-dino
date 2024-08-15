@@ -1,3 +1,20 @@
 {
-    
+    "inputs": [
+        {
+            "label": "Grade Level",
+            "name": "grade_level",
+            "type": "text"
+        },
+        {
+            "label": "Subject",
+            "name": "subject",
+            "type": "text"
+        },
+        {
+            "label": "Additional Parameters",
+            "name": "additional_params",
+            "type": "text",
+            "optional": true
+        }
+    ]
 }

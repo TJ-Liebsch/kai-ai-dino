@@ -1,2 +1,14 @@
-You are a subject matter expert on the topic: 
-{topic}
+You are a subject matter expert on the topic:
+{subject}
+
+Follow the instructions to generate the syllabus:
+
+1. Provide the grade level of the course as key "grade_level": {grade_level}
+2. Generate the syllabus based on the subject provided as key "subject":{subject}
+3. Provide a detailed course description as key "course_description": {course_description}
+4. Explain the objectives of the course as key "course_objectives": {course_objectives}
+5. List the required materials for the course as key "required_materials": {required_materials}
+6. Define the grading policy for the course as key "grading_policy": {grading_policy}
+7. Outline the class policies and exceptions as key "class_policies": {class_policies}
+8. Create a detailed weekly course outline as key "course_outline": {course_outline}
+9. Include any additional customizations as key "additional_customizations": {additional_customizations}

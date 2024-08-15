@@ -3,12 +3,15 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../')))
 from app.api.router import router
 from app.services.logger import setup_logger
 from app.api.error_utilities import ErrorResponse
 
-import os
 from dotenv import load_dotenv, find_dotenv
+
 
 load_dotenv(find_dotenv())
 

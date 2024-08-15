@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from typing import Union
-from app.services.schemas import ToolRequest, ChatRequest, Message, ChatResponse, ToolResponse
+from app.services.schemas import ToolRequest, ChatRequest, Message, ChatResponse, ToolResponse, SyllabusRequest, SyllabusResponse
 from app.utils.auth import key_check
 from app.services.logger import setup_logger
 from app.api.error_utilities import InputValidationError, ErrorResponse
@@ -61,3 +61,14 @@ async def chat( request: ChatRequest, _ = Depends(key_check) ):
     )
     
     return ChatResponse(data=[formatted_response])
+
+@router.post("/generate-syllabus", response_model= SyllabusResponse)
+async def generate_syllabus( request: SyllabusRequest, _ = Depends(key_check)):
+    from app.features.syllabus_generator.core import executor as syllabus_executor
+    grade_level = request.grade_level
+    subject = request.subject
+    additional_params = request.additional_params
+
+    response = syllabus_executor(grade_level= grade_level, subject=subject, additional_params= additional_params)
+
+    return SyllabusResponse(data= response)
