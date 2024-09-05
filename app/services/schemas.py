@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List, Any
+from typing import Optional, List, Any, Dict
 from enum import Enum
 from app.services.tool_registry import BaseTool
 
@@ -32,6 +32,7 @@ class Message(BaseModel):
 class RequestType(str, Enum):
     chat = "chat"
     tool = "tool"
+    syllabus = "syllabus"
 
 class GenericRequest(BaseModel):
     user: User
@@ -57,7 +58,10 @@ class ChatMessage(BaseModel):
 class SyllabusResponse(BaseModel):
     data: Any
 
-class SyllabusRequest(BaseModel):
+class SyllabusInput(BaseModel):
     grade_level: str
     subject: str
-    additional_params: str
+    additional_customizations: str
+
+class SyllabusRequest(BaseModel):
+    inputs: List[SyllabusInput]

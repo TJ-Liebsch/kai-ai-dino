@@ -20,3 +20,8 @@ class ToolFile(BaseModel):
     filePath: Optional[str] = None
     url: str
     filename: Optional[str] = None
+
+class ToolSyllabus(BaseModel):
+    grade_level: str
+    subject: str
+    additional_customizations: str

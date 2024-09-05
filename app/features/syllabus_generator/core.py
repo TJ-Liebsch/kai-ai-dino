@@ -8,7 +8,7 @@ logger = setup_logger()
 def executor(
     grade_level: str,
     subject: str,
-    additional_customizations: Optional[Dict[str, Any]] = None
+    additional_customizations: Optional[str] = None
 ) -> str:
    
     try:

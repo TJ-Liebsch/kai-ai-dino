@@ -11,8 +11,8 @@
             "type": "text"
         },
         {
-            "label": "Additional Parameters",
-            "name": "additional_params",
+            "label": "Additional Customizations",
+            "name": "additional_customizations",
             "type": "text",
             "optional": true
         }

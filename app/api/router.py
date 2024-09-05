@@ -65,10 +65,26 @@ async def chat( request: ChatRequest, _ = Depends(key_check) ):
 @router.post("/generate-syllabus", response_model= SyllabusResponse)
 async def generate_syllabus( request: SyllabusRequest, _ = Depends(key_check)):
     from app.features.syllabus_generator.core import executor as syllabus_executor
-    grade_level = request.grade_level
-    subject = request.subject
-    additional_params = request.additional_params
+    
+    response = []
 
-    response = syllabus_executor(grade_level= grade_level, subject=subject, additional_params= additional_params)
+    for item in request.inputs:
+        grade_level = item.grade_level
+        subject = item.subject
+        additional_customizations = item.additional_customizations
+
+    if grade_level and subject and additional_customizations:
+        logger.debug(f"Gathered the inputs")
+
+    response_data = syllabus_executor(
+            grade_level=grade_level, 
+            subject=subject, 
+            additional_customizations=additional_customizations
+        )
+
+    if response_data:
+        response.append(response_data)
+    else:
+        logger.error(f"Response data is empty")
 
     return SyllabusResponse(data= response)

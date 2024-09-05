@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from typing import Optional
 import os
 import sys
+import json
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')))
 
 from app.services.logger import setup_logger
@@ -32,39 +33,33 @@ class Syllabus(BaseModel):
     class_policies: str = Field(description="Class policies and exceptions")
     course_outline: str = Field(description="Weekly course outline")
     additional_customizations: Optional[str] = Field(description="Any additional customizations for the syllabus")
-    model_config = {
-        "json_schema_extra": {
-            "examples": """
-                {
-                  "grade_level": "University",
-                  "subject": "Introduction to Machine Learning",
-                  "course_description": "This syllabus covers the basics of machine learning, including algorithms and applications.",
-                  "course_objectives": "Understand key concepts in machine learning, such as supervised and unsupervised learning.",
-                  "required_materials": "Textbook: Machine Learning by Tom Mitchell, Notebook, Python environment",
-                  "grading_policy": "Homework: 40%, Midterm: 30%, Final Exam: 30%",
-                  "class_policies": "Attendance required, no late submissions",
-                  "course_outline": "Week 1: Introduction, Week 2: Supervised Learning, ...",
-                  "additional_customizations": "Guest lectures, field trips"
-                }
-            """
-        }
-    }
 
 def generate_syllabus(grade_level, subject, additional_customizations):
     try:
+        input_data = {
+            "grade_level": grade_level,
+            "subject": subject,
+            "additional_customizations": additional_customizations
+        }
+
+        try:
+            json.dumps(input_data)
+        except (TypeError, ValueError) as e:
+            logger.error(f"Invalid JSON data: {e}")
+
         template = read_text_file("prompt/syllabus-prompt.txt")
+        logger.debug(f"Template: {template}")
         parser = JsonOutputParser(pydantic_object=Syllabus)
         prompt = PromptTemplate(
             template= template,
             input_variables=["grade_level", "subject", "additional_customizations"],
             partial_variables={"format_instructions": parser.get_format_instructions()},
         )
+        logger.debug(f"Prompt: {prompt}")
         chain= prompt | model | parser
-        response = chain.invoke({
-                   "grade_level": grade_level,
-                  "subject": subject,
-                 "additional_customizations": additional_customizations
-                })
+        logger.debug(f"Chain: {chain}")
+        response = chain.invoke(input_data)
+        logger.debug(f"Response: {response}")
     except Exception as e:
         logger.error(f"Failed to generate syllabus: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to generate syllabus from LLM")

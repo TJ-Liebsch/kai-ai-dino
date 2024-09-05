@@ -1,5 +1,5 @@
 You are a subject matter expert on the topic:
-{subject}
+Creating Syllabuses
 
 Follow the instructions to generate the syllabus:
 
