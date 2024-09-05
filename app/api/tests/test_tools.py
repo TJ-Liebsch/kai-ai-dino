@@ -3,7 +3,8 @@ from main import app
 from app.services.tool_registry import validate_inputs
 import pytest
 import os
-
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../')))
 #export PYTHONPATH=/path/to/your/project:$PYTHONPATH
 #pytest -v
 
@@ -16,7 +17,7 @@ def set_env_vars():
     # Set new values
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'local-auth.json'
     os.environ['ENV_TYPE'] = 'dev'
-    os.environ['PROJECT_ID'] = "kai-ai-f63c8"
+    os.environ['PROJECT_ID'] = "kai-ai-backend-429617"
     # Ensure these changes are only present during the tests
     yield
     # Restore old values after tests
